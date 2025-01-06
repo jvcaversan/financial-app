@@ -27,14 +27,17 @@ export const TransactionList: React.FC<TransactionListProps> = ({
         data={transactions}
         renderItem={({ item }) => {
           const index = transactions.findIndex((t) => t.id === item.id);
-          const color = generateColor(index, transactions.length, item.type); // Função para gerar cores
+          const color =
+            item.type === "income"
+              ? "lightgreen"
+              : generateColor(index, transactions.length, item.type);
 
           return (
             <TransactionItem
               transaction={item}
               isSelected={selectedTransactionId === item.id}
               color={color}
-              onSelect={() => onSelectTransaction(item.id)} // Passando a função onSelect
+              onSelect={() => onSelectTransaction(item.id)}
             />
           );
         }}

@@ -27,7 +27,7 @@ export const TransactionItem: React.FC<TransactionItemProps> = ({
     <Pressable onPress={onSelect}>
       <Box
         style={{
-          backgroundColor: isSelected ? `${color}20` : "white",
+          backgroundColor: isSelected ? `${color}` : "white",
         }}
         className="p-4 rounded-lg border border-gray-100"
       >

@@ -12,7 +12,10 @@ export const preparePieChartData = (
   onPress: (id: number) => void
 ) => {
   return transactions.map((transaction, index) => {
-    const color = generateColor(index, transactions.length, transaction.type);
+    const color =
+      transaction.type === "income"
+        ? "green"
+        : generateColor(index, transactions.length, transaction.type);
     return {
       value: Math.abs(transaction.amount),
       svg: {
