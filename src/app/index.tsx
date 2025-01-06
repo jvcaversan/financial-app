@@ -20,6 +20,7 @@ const HomeScreen: React.FC = () => {
     { id: 3, description: "Academia", amount: -80.0, type: "expense" },
     { id: 4, description: "Futevolei", amount: -140.0, type: "expense" },
     { id: 5, description: "Cinema", amount: -200.0, type: "expense" },
+    { id: 6, description: "Freelance", amount: 500.0, type: "income" },
   ];
 
   const {
