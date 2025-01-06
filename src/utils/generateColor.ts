@@ -3,8 +3,8 @@ export const generateColor = (
   total: number,
   type: "income" | "expense"
 ): string => {
-  const hue = (index / total) * 360;
-  const saturation = type === "income" ? 70 : 50;
-  const lightness = type === "income" ? 50 : 40;
+  const hue = (index / total) * 400;
+  const saturation = type === "income" ? 70 : 90;
+  const lightness = type === "income" ? 50 : 50;
   return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 };

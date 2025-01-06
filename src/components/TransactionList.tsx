@@ -19,7 +19,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
   onSelectTransaction,
 }) => {
   return (
-    <Box>
+    <Box className="mb-10">
       <Text className="text-gray-800 text-xl font-bold mb-4">
         Transações Recentes
       </Text>
