@@ -1,0 +1,47 @@
+// components/TransactionList.tsx
+import React from "react";
+import { FlatList } from "react-native";
+import { Box } from "../components/ui/box";
+import { Text } from "../components/ui/text";
+import { TransactionItem } from "./TransactionItem";
+import { Transaction } from "../hooks/useTransactions";
+import { generateColor } from "../utils/generateColor";
+
+interface TransactionListProps {
+  transactions: Transaction[];
+  selectedTransactionId: number | null;
+  onSelectTransaction: (id: number) => void;
+}
+
+export const TransactionList: React.FC<TransactionListProps> = ({
+  transactions,
+  selectedTransactionId,
+  onSelectTransaction,
+}) => {
+  return (
+    <Box>
+      <Text className="text-gray-800 text-xl font-bold mb-4">
+        Transações Recentes
+      </Text>
+      <FlatList
+        data={transactions}
+        renderItem={({ item }) => {
+          const index = transactions.findIndex((t) => t.id === item.id);
+          const color = generateColor(index, transactions.length, item.type); // Função para gerar cores
+
+          return (
+            <TransactionItem
+              transaction={item}
+              isSelected={selectedTransactionId === item.id}
+              color={color}
+              onSelect={() => onSelectTransaction(item.id)} // Passando a função onSelect
+            />
+          );
+        }}
+        keyExtractor={(item) => item.id.toString()}
+        scrollEnabled={false}
+        ItemSeparatorComponent={() => <Box className="h-2" />}
+      />
+    </Box>
+  );
+};
