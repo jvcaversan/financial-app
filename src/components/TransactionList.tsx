@@ -27,10 +27,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
         data={transactions}
         renderItem={({ item }) => {
           const index = transactions.findIndex((t) => t.id === item.id);
-          const color =
-            item.type === "income"
-              ? "lightgreen"
-              : generateColor(index, transactions.length, item.type);
+          const color = generateColor(index, transactions.length, item.type);
 
           return (
             <TransactionItem

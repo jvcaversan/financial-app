@@ -21,8 +21,8 @@ export const PieChartCard: React.FC<PieChartCardProps> = ({ data }) => {
         <PieChart
           style={{ height: 200, width: "100%" }}
           data={data}
-          innerRadius={0}
-          padAngle={0}
+          innerRadius={"50%"}
+          padAngle={0.04}
         />
       </Box>
     </Box>
