@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { HStack } from "../components/ui/hstack";
 import { Header } from "../components/header";
@@ -8,6 +8,7 @@ import { PieChartCard } from "../components/PieChartCard";
 import { TransactionList } from "../components/TransactionList";
 import { Transaction, useTransactions } from "../hooks/useTransactions";
 import { preparePieChartData } from "../utils/preparePieChartData";
+import { useLastTransactions } from "../hooks/useLastTransactions";
 
 const HomeScreen: React.FC = () => {
   const user = {
@@ -22,6 +23,7 @@ const HomeScreen: React.FC = () => {
     { id: 5, description: "Cinema", amount: -200.0, type: "expense" },
     { id: 6, description: "Supermercado", amount: -250.5, type: "expense" },
     { id: 7, description: "Computador", amount: -2000.0, type: "expense" },
+    { id: 8, description: "Monitor", amount: -500.0, type: "expense" },
   ];
 
   const {
@@ -36,8 +38,18 @@ const HomeScreen: React.FC = () => {
     setSelectedTransactionId
   );
 
+  const { lastTransactions, addTransactionToTop } = useLastTransactions(
+    transactions,
+    5
+  );
+
   const handleSelectSlice = (key: number) => {
     setSelectedTransactionId(key);
+
+    const selectedTransaction = transactions.find((t) => t.id === key);
+    if (selectedTransaction) {
+      addTransactionToTop(selectedTransaction);
+    }
   };
 
   return (
@@ -64,7 +76,7 @@ const HomeScreen: React.FC = () => {
         data={pieChartData}
       />
       <TransactionList
-        transactions={transactions}
+        transactions={lastTransactions}
         selectedTransactionId={selectedTransactionId}
         onSelectTransaction={setSelectedTransactionId}
       />
