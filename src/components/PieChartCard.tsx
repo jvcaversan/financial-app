@@ -25,7 +25,7 @@ export const PieChartCard = ({
       </Text>
       <Box className="items-center bg-gray-50 p-3 rounded-xl">
         <PieChart
-          style={{ height: 200, width: "100%" }}
+          style={{ height: 220, width: "100%" }}
           data={data.map((item) => ({
             ...item,
             svg: {
@@ -33,9 +33,9 @@ export const PieChartCard = ({
               onPress: () => {
                 onSelectSlice(item.key);
               },
-              outerRadius: selectedKey === item.key ? "115%" : "95%",
+              outerRadius: selectedKey === item.key ? "110%" : "95%",
               stroke: selectedKey === item.key ? "black" : "none",
-              strokeWidth: selectedKey === item.key ? 2 : 0,
+              strokeWidth: selectedKey === item.key ? 1 : 0,
             },
           }))}
           innerRadius={"40%"}
