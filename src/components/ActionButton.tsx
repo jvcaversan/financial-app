@@ -12,13 +12,13 @@ interface ActionButtonProps {
   onPress?: () => void;
 }
 
-export const ActionButton: React.FC<ActionButtonProps> = ({
+export const ActionButton = ({
   iconName,
   label,
   color,
   backgroundColor,
   onPress,
-}) => {
+}: ActionButtonProps) => {
   return (
     <Button
       className={`${backgroundColor} flex-1 py-3 h-15 rounded-lg`}

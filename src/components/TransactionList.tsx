@@ -12,11 +12,11 @@ interface TransactionListProps {
   onSelectTransaction: (id: number) => void;
 }
 
-export const TransactionList: React.FC<TransactionListProps> = ({
+export const TransactionList = ({
   transactions,
   selectedTransactionId,
   onSelectTransaction,
-}) => {
+}: TransactionListProps) => {
   return (
     <Box className="mb-10">
       <Text className="text-gray-800 text-xl font-bold mb-4">
@@ -25,8 +25,6 @@ export const TransactionList: React.FC<TransactionListProps> = ({
       <FlatList
         data={transactions}
         renderItem={({ item }) => {
-          const index = transactions.findIndex((t) => t.id === item.id);
-
           const color = item.type === "income" ? "lightgreen" : "pink";
 
           return (

@@ -5,7 +5,7 @@ interface HeaderProps {
   userName: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ userName }) => {
+export const Header = ({ userName }: HeaderProps) => {
   return (
     <Box className="mb-6">
       <Text className="text-gray-800 text-2xl font-bold">Olá, {userName}</Text>

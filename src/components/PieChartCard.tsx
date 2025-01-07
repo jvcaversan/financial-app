@@ -12,10 +12,7 @@ interface PieChartCardProps {
   onSelectSlice: (key: number) => void;
 }
 
-export const PieChartCard: React.FC<PieChartCardProps> = ({
-  data,
-  onSelectSlice,
-}) => {
+export const PieChartCard = ({ data, onSelectSlice }: PieChartCardProps) => {
   const [isSelected, setIsSelected] = useState<number | null>(null);
 
   return (

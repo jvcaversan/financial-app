@@ -6,7 +6,7 @@ interface BalanceCardProps {
   balance: number;
 }
 
-export const BalanceCard: React.FC<BalanceCardProps> = ({ balance }) => {
+export const BalanceCard = ({ balance }: BalanceCardProps) => {
   return (
     <Box className="bg-blue-50 p-6 rounded-xl mb-6">
       <Text className="text-gray-500 text-sm">Saldo Atual</Text>

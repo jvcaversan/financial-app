@@ -14,15 +14,15 @@ interface TransactionItemProps {
   };
   isSelected: boolean;
   color: string;
-  onSelect?: () => void; // Adicionando prop onSelect
+  onSelect?: () => void;
 }
 
-export const TransactionItem: React.FC<TransactionItemProps> = ({
+export const TransactionItem = ({
   transaction,
   isSelected,
   color,
   onSelect,
-}) => {
+}: TransactionItemProps) => {
   return (
     <Pressable onPress={onSelect}>
       <Box
