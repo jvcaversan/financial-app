@@ -23,7 +23,7 @@ export const PieChartCard = ({
       <Text className="text-gray-800 text-xl font-bold mb-4">
         Distribuição de Gastos
       </Text>
-      <Box className="items-center bg-gray-50 p-4 rounded-xl">
+      <Box className="items-center bg-gray-50 p-3 rounded-xl">
         <PieChart
           style={{ height: 200, width: "100%" }}
           data={data.map((item) => ({
@@ -33,12 +33,12 @@ export const PieChartCard = ({
               onPress: () => {
                 onSelectSlice(item.key);
               },
-              outerRadius: selectedKey === item.key ? "110%" : "95%",
+              outerRadius: selectedKey === item.key ? "115%" : "95%",
               stroke: selectedKey === item.key ? "black" : "none",
               strokeWidth: selectedKey === item.key ? 2 : 0,
             },
           }))}
-          innerRadius={"50%"}
+          innerRadius={"40%"}
           padAngle={0.04}
         />
       </Box>

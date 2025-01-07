@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "./ui/button";
+import { TouchableOpacity } from "react-native";
 import { HStack } from "./ui/hstack";
 import { Text } from "./ui/text";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -20,14 +20,17 @@ export const ActionButton = ({
   onPress,
 }: ActionButtonProps) => {
   return (
-    <Button
-      className={`${backgroundColor} flex-1 py-3 h-15 rounded-lg`}
+    <TouchableOpacity
+      className={`flex-1 py-3 rounded-lg justify-center items-center ${backgroundColor}`}
       onPress={onPress}
+      activeOpacity={0.8}
     >
-      <HStack space="sm" className="items-center justify-center">
+      <HStack space="sm" className="items-center">
         <MaterialIcons name={iconName} size={20} color={color} />
-        <Text className={`${color} font-semibold`}>{label}</Text>
+        <Text className={`font-semibold`} style={{ color }}>
+          {label}
+        </Text>
       </HStack>
-    </Button>
+    </TouchableOpacity>
   );
 };
