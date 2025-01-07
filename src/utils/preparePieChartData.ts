@@ -1,5 +1,3 @@
-import { generateColor } from "./generateColor";
-
 interface Transaction {
   id: number;
   description: string;
@@ -12,7 +10,7 @@ export const preparePieChartData = (
   onPress: (id: number) => void
 ) => {
   return transactions.map((transaction, index) => {
-    const color = generateColor(index, transactions.length, transaction.type);
+    const color = transaction.type === "income" ? "#4CAF50" : "#F44336";
     return {
       value: Math.abs(transaction.amount),
       svg: {

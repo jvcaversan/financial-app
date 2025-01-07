@@ -5,7 +5,6 @@ import { Box } from "../components/ui/box";
 import { Text } from "../components/ui/text";
 import { TransactionItem } from "./TransactionItem";
 import { Transaction } from "../hooks/useTransactions";
-import { generateColor } from "../utils/generateColor";
 
 interface TransactionListProps {
   transactions: Transaction[];
@@ -27,7 +26,8 @@ export const TransactionList: React.FC<TransactionListProps> = ({
         data={transactions}
         renderItem={({ item }) => {
           const index = transactions.findIndex((t) => t.id === item.id);
-          const color = generateColor(index, transactions.length, item.type);
+
+          const color = item.type === "income" ? "lightgreen" : "pink";
 
           return (
             <TransactionItem
