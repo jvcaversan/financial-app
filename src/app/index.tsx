@@ -21,6 +21,7 @@ const HomeScreen: React.FC = () => {
     { id: 4, description: "Futevolei", amount: -140.0, type: "expense" },
     { id: 5, description: "Cinema", amount: -200.0, type: "expense" },
     { id: 6, description: "Freelance", amount: 500.0, type: "income" },
+    { id: 7, description: "Computador", amount: -2000.0, type: "expense" },
   ];
 
   const {
@@ -34,6 +35,10 @@ const HomeScreen: React.FC = () => {
     transactions,
     setSelectedTransactionId
   );
+
+  const handleSelectSlice = (key: number) => {
+    setSelectedTransactionId(key);
+  };
 
   return (
     <ScrollView className="flex-1 bg-white p-4">
@@ -53,7 +58,7 @@ const HomeScreen: React.FC = () => {
           backgroundColor="bg-red-100"
         />
       </HStack>
-      <PieChartCard data={pieChartData} />
+      <PieChartCard onSelectSlice={handleSelectSlice} data={pieChartData} />
       <TransactionList
         transactions={transactions}
         selectedTransactionId={selectedTransactionId}
