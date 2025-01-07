@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 
 import "@/global.css";
 import { GluestackUIProvider } from "../components/ui/gluestack-ui-provider";
@@ -6,9 +6,7 @@ import { GluestackUIProvider } from "../components/ui/gluestack-ui-provider";
 export default function RootLayout() {
   return (
     <GluestackUIProvider mode="light">
-      <Stack>
-        <Stack.Screen name="index" options={{ title: "FinanApp" }} />
-      </Stack>
+      <Slot />
     </GluestackUIProvider>
   );
 }
