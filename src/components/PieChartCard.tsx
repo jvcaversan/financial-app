@@ -9,12 +9,15 @@ interface PieChartCardProps {
     svg: { fill: string; onPress: () => void };
     key: number;
   }[];
+  selectedKey: number | null;
   onSelectSlice: (key: number) => void;
 }
 
-export const PieChartCard = ({ data, onSelectSlice }: PieChartCardProps) => {
-  const [isSelected, setIsSelected] = useState<number | null>(null);
-
+export const PieChartCard = ({
+  data,
+  selectedKey,
+  onSelectSlice,
+}: PieChartCardProps) => {
   return (
     <Box className="mb-6">
       <Text className="text-gray-800 text-xl font-bold mb-4">
@@ -23,17 +26,16 @@ export const PieChartCard = ({ data, onSelectSlice }: PieChartCardProps) => {
       <Box className="items-center bg-gray-50 p-4 rounded-xl">
         <PieChart
           style={{ height: 200, width: "100%" }}
-          data={data.map((item, index) => ({
+          data={data.map((item) => ({
             ...item,
             svg: {
               ...item.svg,
               onPress: () => {
-                setIsSelected(index);
                 onSelectSlice(item.key);
               },
-              outerRadius: isSelected === index ? "110%" : "95%",
-              stroke: isSelected === index ? "black" : "none",
-              strokeWidth: isSelected === index ? 2 : 0,
+              outerRadius: selectedKey === item.key ? "110%" : "95%",
+              stroke: selectedKey === item.key ? "black" : "none",
+              strokeWidth: selectedKey === item.key ? 2 : 0,
             },
           }))}
           innerRadius={"50%"}
