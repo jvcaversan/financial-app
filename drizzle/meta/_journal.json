@@ -15,6 +15,27 @@
       "when": 1736294503813,
       "tag": "0001_thankful_next_avengers",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1736339108818,
+      "tag": "0002_uneven_quicksilver",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1736342495824,
+      "tag": "0003_flashy_piledriver",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1736343245508,
+      "tag": "0004_brave_polaris",
+      "breakpoints": true
     }
   ]
 }

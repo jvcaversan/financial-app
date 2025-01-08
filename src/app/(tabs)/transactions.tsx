@@ -4,16 +4,18 @@ import { SafeAreaView } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 
-import { transactions } from "../../db/schema";
+import { schema } from "../../db/schema";
 
 export default function TransactionsScreen() {
   const database = useSQLiteContext();
-  const db = drizzle(database);
+  const db = drizzle(database, { schema });
 
   async function fetchTransactions() {
-    const allTransactions = await db.select().from(transactions);
+    const allTransactions = await db.delete(schema.transactions);
     console.log(allTransactions);
   }
+
+  fetchTransactions();
   return (
     <SafeAreaView>
       <Text>TRANSACOES</Text>

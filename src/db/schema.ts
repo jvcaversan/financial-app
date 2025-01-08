@@ -14,6 +14,9 @@ export const transactions = sqliteTable("transactions", {
   userId: integer("user_id")
     .notNull()
     .references(() => users.id),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .$defaultFn(() => new Date()),
 });
 
 export const schema = {
