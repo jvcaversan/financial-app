@@ -21,15 +21,12 @@ export function ActionButton({
 }: ActionButtonProps) {
   return (
     <TouchableOpacity
-      className={`flex-1 ${backgroundColor} px-4 py-3 rounded-xl`}
+      className={`flex-1 ${backgroundColor} px-4 py-3 rounded-xl `}
       onPress={onPress}
     >
       <HStack space="md" className="items-center justify-center">
-        <MaterialIcons name={iconName} size={24} color={color} />
-        <Text
-          className="font-semibold text-base items-center justify-center"
-          style={{ color }}
-        >
+        {iconName && <MaterialIcons name={iconName} size={24} color={color} />}
+        <Text className="font-semibold text-base" style={{ color }}>
           {label}
         </Text>
       </HStack>

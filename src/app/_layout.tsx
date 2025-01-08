@@ -2,6 +2,8 @@ import { Stack } from "expo-router";
 import "@/global.css";
 import { GluestackUIProvider } from "../components/ui/gluestack-ui-provider";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
@@ -13,6 +15,8 @@ export const DATABASE_NAME = "database.db";
 
 const expoDB = openDatabaseSync(DATABASE_NAME);
 const db = drizzle(expoDB);
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const { success, error } = useMigrations(db, migrations);
@@ -31,12 +35,14 @@ export default function RootLayout() {
 
   return (
     <SQLiteProvider databaseName={DATABASE_NAME}>
-      <GluestackUIProvider mode="light">
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </GluestackUIProvider>
+      <QueryClientProvider client={queryClient}>
+        <GluestackUIProvider mode="light">
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </GluestackUIProvider>
+      </QueryClientProvider>
     </SQLiteProvider>
   );
 }

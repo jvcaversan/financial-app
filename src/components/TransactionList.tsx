@@ -1,22 +1,31 @@
-// components/TransactionList.tsx
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, ActivityIndicator } from "react-native";
 import { Box } from "../components/ui/box";
 import { Text } from "../components/ui/text";
 import { TransactionItem } from "./TransactionItem";
-import { Transaction } from "../hooks/useTransactions";
+import { Transaction } from "../types";
 
 interface TransactionListProps {
-  transactions: Transaction[];
+  transactions: Transaction[]; // Recebe as transações como prop
   selectedTransactionId?: number | null;
   onSelectTransaction: (id: number) => void;
+  isLoading?: boolean; // Adicione uma prop para o estado de carregamento
 }
 
 export const TransactionList = ({
   transactions,
   selectedTransactionId,
   onSelectTransaction,
+  isLoading,
 }: TransactionListProps) => {
+  if (isLoading) {
+    return (
+      <Box className="items-center justify-center py-8">
+        <ActivityIndicator size="large" />
+      </Box>
+    );
+  }
+
   return (
     <Box className="mb-10">
       <Text className="text-gray-800 text-xl font-bold mb-4">
@@ -32,7 +41,7 @@ export const TransactionList = ({
         <FlatList
           data={transactions}
           renderItem={({ item }) => {
-            const color = item.type === "income" ? "lightgreen" : "pink";
+            const color = item.type === "incomes" ? "lightgreen" : "pink";
             return (
               <TransactionItem
                 transaction={item}

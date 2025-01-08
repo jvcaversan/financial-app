@@ -10,7 +10,9 @@ interface TransactionItemProps {
     id: number;
     description: string;
     amount: number;
-    type: "income" | "expense";
+    type: "incomes" | "expenses";
+    userId: number;
+    createdAt?: Date;
   };
   isSelected?: boolean;
   color: string;
@@ -35,23 +37,23 @@ export const TransactionItem = ({
           <HStack space="sm" className="items-center">
             <MaterialIcons
               name={
-                transaction.type === "income"
+                transaction.type === "incomes"
                   ? "arrow-upward"
                   : "arrow-downward"
               }
               size={20}
-              color={transaction.type === "income" ? "#4CAF50" : "#F44336"}
+              color={transaction.type === "incomes" ? "#4CAF50" : "#F44336"}
             />
             <Text className="text-gray-800">{transaction.description}</Text>
           </HStack>
           <Text
             className={
-              transaction.type === "income"
+              transaction.type === "incomes"
                 ? "text-green-500 font-semibold"
                 : "text-red-500 font-semibold"
             }
           >
-            {transaction.type === "income" ? "+" : "-"} R${" "}
+            {transaction.type === "incomes" ? "+" : "-"} R${" "}
             {Math.abs(transaction.amount).toFixed(2)}
           </Text>
         </HStack>

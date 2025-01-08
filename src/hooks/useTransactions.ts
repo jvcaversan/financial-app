@@ -1,59 +1,51 @@
-import { useState, useEffect } from "react";
-import { transactions as transactionsTable } from "../db/schema";
-import { desc } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 
-export interface Transaction {
-  id: number;
-  description: string;
+import { schema, transactions } from "../db/schema";
+
+interface AddTransactionParams {
   amount: number;
+  description: string;
   type: "incomes" | "expenses";
   userId: number;
-  createdAt?: Date;
 }
 
-export const useTransactions = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [selectedTransactionId, setSelectedTransactionId] = useState<
-    number | null
-  >(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function useTransactions() {
+  const database = useSQLiteContext();
+  const db = drizzle(database, { schema });
+  const queryClient = useQueryClient();
 
-  const db = drizzle(useSQLiteContext());
+  const { data: allTransactions, isLoading } = useQuery({
+    queryKey: ["transactions"],
+    queryFn: async () => {
+      try {
+        return await db.query.transactions.findMany();
+      } catch (error) {
+        console.error("Failed to fetch transactions:", error);
+        throw error;
+      }
+    },
+  });
 
-  const fetchTransactions = async () => {
-    try {
-      setIsLoading(true);
-      const result = await db
-        .select()
-        .from(transactionsTable)
-        .orderBy(desc(transactionsTable.createdAt));
-      setTransactions(result);
-      console.log(transactions);
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
-
-  const calculateBalance = (): number => {
-    return transactions.reduce((total, transaction) => {
-      return total + transaction.amount;
-    }, 0);
-  };
+  const { mutate: addTransaction } = useMutation({
+    mutationFn: async (data: AddTransactionParams) => {
+      try {
+        await db.insert(transactions).values(data);
+      } catch (error) {
+        console.error("Error saving transaction:", error);
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      // Invalida o cache e força uma nova busca
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    },
+  });
 
   return {
-    transactions,
-    selectedTransactionId,
-    setSelectedTransactionId,
-    balance: calculateBalance(),
+    transactions: allTransactions ?? [],
     isLoading,
-    refreshTransactions: fetchTransactions,
+    addTransaction,
   };
-};
+}

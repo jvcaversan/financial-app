@@ -6,6 +6,7 @@ import { PieChart } from "react-native-svg-charts";
 interface PieChartCardProps {
   data: {
     value: number;
+    type: "incomes" | "expenses";
     svg: { fill: string; onPress: () => void };
     key: number;
   }[];
@@ -30,6 +31,7 @@ export const PieChartCard = ({
             ...item,
             svg: {
               ...item.svg,
+              fill: item.type === "incomes" ? "#4CAF50" : "#F44336",
               onPress: () => {
                 onSelectSlice(item.key);
               },

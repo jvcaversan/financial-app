@@ -1,37 +1,26 @@
-import { Transaction } from "../hooks/useTransactions";
+import { Transaction } from "../types";
 
 interface PieChartData {
-  key: number;
   value: number;
-  svg: { fill: string; onPress: () => void };
+  type: "incomes" | "expenses";
+  svg: {
+    fill: string;
+    onPress: () => void;
+  };
+  key: number;
 }
 
-export const preparePieChartData = (
+export function preparePieChartData(
   transactions: Transaction[],
-  onPress: (id: number) => void
-): PieChartData[] => {
-  if (transactions.length === 0) {
-    return [
-      {
-        key: 0,
-        value: 1,
-        svg: {
-          fill: "#E5E7EB", // Tailwind gray-200
-          onPress: () => {},
-        },
-      },
-    ];
-  }
-
-  return transactions.map((transaction) => {
-    const color = transaction.type === "income" ? "#4CAF50" : "#F44336";
-    return {
-      key: transaction.id,
-      value: Math.abs(transaction.amount),
-      svg: {
-        fill: color,
-        onPress: () => onPress(transaction.id),
-      },
-    };
-  });
-};
+  onSelect: (id: number) => void
+): PieChartData[] {
+  return transactions.map((transaction) => ({
+    value: Math.abs(transaction.amount),
+    type: transaction.type === "incomes" ? "incomes" : "expenses",
+    svg: {
+      fill: transaction.type === "incomes" ? "#4CAF50" : "#F44336",
+      onPress: () => onSelect(transaction.id),
+    },
+    key: transaction.id,
+  }));
+}

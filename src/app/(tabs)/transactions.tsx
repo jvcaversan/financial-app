@@ -1,24 +1,21 @@
-import { Text } from "react-native";
-import { SafeAreaView } from "react-native";
-
-import { useSQLiteContext } from "expo-sqlite";
-import { drizzle } from "drizzle-orm/expo-sqlite";
-
-import { schema } from "../../db/schema";
+import React from "react";
+import { ScrollView } from "react-native";
+import { TransactionList } from "../../components/TransactionList";
+import { useTransactionStore } from "../../store/store";
+import { useTransactions } from "../../hooks/useTransactions";
 
 export default function TransactionsScreen() {
-  const database = useSQLiteContext();
-  const db = drizzle(database, { schema });
+  const { selectedTransactionId, setSelectedTransactionId } =
+    useTransactionStore();
 
-  async function fetchTransactions() {
-    const allTransactions = await db.delete(schema.transactions);
-    console.log(allTransactions);
-  }
+  const { transactions } = useTransactions();
 
-  fetchTransactions();
   return (
-    <SafeAreaView>
-      <Text>TRANSACOES</Text>
-    </SafeAreaView>
+    <ScrollView className="flex-1 px-4 pt-4">
+      <TransactionList
+        transactions={transactions}
+        onSelectTransaction={setSelectedTransactionId}
+      />
+    </ScrollView>
   );
 }

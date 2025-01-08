@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Modal, View, TextInput, TouchableOpacity } from "react-native";
 import { Text } from "./ui/text";
-import { useSQLiteContext } from "expo-sqlite";
-import { drizzle } from "drizzle-orm/expo-sqlite";
-import { transactions } from "../db/schema";
+import { useTransactions } from "../hooks/useTransactions";
 import { ActionButton } from "./ActionButton";
 
 interface AddTransactionModalProps {
@@ -21,15 +19,14 @@ export function AddTransactionModal({
 }: AddTransactionModalProps) {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-
-  const db = drizzle(useSQLiteContext());
+  const { addTransaction } = useTransactions();
 
   async function handleSubmit() {
     if (!amount || !description) return;
 
     try {
-      await db.insert(transactions).values({
-        amount: Number(amount) * 100,
+      await addTransaction({
+        amount: Number(amount),
         description,
         type,
         userId: 1,

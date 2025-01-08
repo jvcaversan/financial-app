@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { ScrollView } from "react-native";
 import { HStack } from "../../components/ui/hstack";
 import { Header } from "../../components/header";
@@ -6,56 +6,35 @@ import { BalanceCard } from "../../components/BalanceCard";
 import { ActionButton } from "../../components/ActionButton";
 import { PieChartCard } from "../../components/PieChartCard";
 import { TransactionList } from "../../components/TransactionList";
-import { Transaction, useTransactions } from "../../hooks/useTransactions";
 import { preparePieChartData } from "../../utils/preparePieChartData";
-import { useLastTransactions } from "../../hooks/useLastTransactions";
 import { AddTransactionModal } from "../../components/AddTransactionModal";
+import { useTransactions } from "../../hooks/useTransactions";
+import { Transaction } from "../../types";
 
 const HomeScreen: React.FC = () => {
   const user = {
     name: "João Silva",
   };
 
-  const initialTransactions: Transaction[] = [];
+  const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
+  const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
+    number | null
+  >(null);
 
-  const {
-    transactions,
-    selectedTransactionId,
-    setSelectedTransactionId,
-    balance,
-  } = useTransactions(initialTransactions);
-
-  const pieChartData = preparePieChartData(
-    transactions,
-    setSelectedTransactionId
-  );
-
-  const { lastTransactions, addTransactionToTop } = useLastTransactions(
-    transactions,
-    5
-  );
+  const { transactions } = useTransactions();
 
   const handleSelectSlice = (key: number) => {
     setSelectedTransactionId(key);
-
-    const selectedTransaction = transactions.find((t) => t.id === key);
-    if (selectedTransaction) {
-      addTransactionToTop(selectedTransaction);
-    }
   };
+  const pieChartData = preparePieChartData(transactions, handleSelectSlice);
 
-  const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
-  const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
-
-  const refreshTransactions = async () => {
-    // Implement your refresh logic here
-    // This should fetch the latest transactions from the database
-  };
+  const lastTransactions = transactions.slice(0, 5);
 
   return (
     <ScrollView className="flex-1 bg-white p-4">
       <Header userName={user.name} />
-      <BalanceCard balance={balance} />
+      {/* <BalanceCard balance={balance} /> */}
       <HStack space="md" className="mb-6">
         <ActionButton
           iconName="add"
@@ -87,14 +66,14 @@ const HomeScreen: React.FC = () => {
         isVisible={isIncomeModalVisible}
         onClose={() => setIsIncomeModalVisible(false)}
         type="incomes"
-        onSuccess={refreshTransactions}
+        onSuccess={() => setIsIncomeModalVisible(false)}
       />
 
       <AddTransactionModal
         isVisible={isExpenseModalVisible}
         onClose={() => setIsExpenseModalVisible(false)}
         type="expenses"
-        onSuccess={refreshTransactions}
+        onSuccess={() => setIsIncomeModalVisible(false)}
       />
     </ScrollView>
   );
