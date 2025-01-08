@@ -7,7 +7,13 @@ export default function TabsLayout() {
         name="home"
         options={{ headerTitle: "FinanApp", tabBarLabel: "Home" }}
       />
-      <Tabs.Screen name="transactions" options={{ title: "Transações" }} />
+      <Tabs.Screen
+        name="transactions"
+        options={{
+          headerTitle: "Histórico de Transações",
+          tabBarLabel: "Transações",
+        }}
+      />
     </Tabs>
   );
 }

@@ -12,7 +12,7 @@ interface TransactionItemProps {
     amount: number;
     type: "income" | "expense";
   };
-  isSelected: boolean;
+  isSelected?: boolean;
   color: string;
   onSelect?: () => void;
 }

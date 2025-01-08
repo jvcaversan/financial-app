@@ -14,7 +14,6 @@ export default function TransactionsScreen() {
     const allTransactions = await db.select().from(transactions);
     console.log(allTransactions);
   }
-  fetchTransactions();
   return (
     <SafeAreaView>
       <Text>TRANSACOES</Text>

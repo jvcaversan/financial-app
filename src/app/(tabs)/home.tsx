@@ -9,22 +9,14 @@ import { TransactionList } from "../../components/TransactionList";
 import { Transaction, useTransactions } from "../../hooks/useTransactions";
 import { preparePieChartData } from "../../utils/preparePieChartData";
 import { useLastTransactions } from "../../hooks/useLastTransactions";
+import { AddTransactionModal } from "../../components/AddTransactionModal";
 
 const HomeScreen: React.FC = () => {
   const user = {
     name: "João Silva",
   };
 
-  const initialTransactions: Transaction[] = [
-    { id: 1, description: "Salário", amount: 3000.0, type: "income" },
-    { id: 2, description: "Freelance", amount: 500.0, type: "income" },
-    { id: 3, description: "Academia", amount: -80.0, type: "expense" },
-    { id: 4, description: "Futevolei", amount: -140.0, type: "expense" },
-    { id: 5, description: "Cinema", amount: -200.0, type: "expense" },
-    { id: 6, description: "Supermercado", amount: -250.5, type: "expense" },
-    { id: 7, description: "Computador", amount: -2000.0, type: "expense" },
-    { id: 8, description: "Monitor", amount: -500.0, type: "expense" },
-  ];
+  const initialTransactions: Transaction[] = [];
 
   const {
     transactions,
@@ -52,6 +44,14 @@ const HomeScreen: React.FC = () => {
     }
   };
 
+  const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
+  const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
+
+  const refreshTransactions = async () => {
+    // Implement your refresh logic here
+    // This should fetch the latest transactions from the database
+  };
+
   return (
     <ScrollView className="flex-1 bg-white p-4">
       <Header userName={user.name} />
@@ -62,12 +62,14 @@ const HomeScreen: React.FC = () => {
           label="Adicionar Receita"
           color="#4CAF50"
           backgroundColor="bg-green-100"
+          onPress={() => setIsIncomeModalVisible(true)}
         />
         <ActionButton
           iconName="remove"
           label="Adicionar Despesa"
           color="#F44336"
           backgroundColor="bg-red-100"
+          onPress={() => setIsExpenseModalVisible(true)}
         />
       </HStack>
       <PieChartCard
@@ -79,6 +81,20 @@ const HomeScreen: React.FC = () => {
         transactions={lastTransactions}
         selectedTransactionId={selectedTransactionId}
         onSelectTransaction={setSelectedTransactionId}
+      />
+
+      <AddTransactionModal
+        isVisible={isIncomeModalVisible}
+        onClose={() => setIsIncomeModalVisible(false)}
+        type="incomes"
+        onSuccess={refreshTransactions}
+      />
+
+      <AddTransactionModal
+        isVisible={isExpenseModalVisible}
+        onClose={() => setIsExpenseModalVisible(false)}
+        type="expenses"
+        onSuccess={refreshTransactions}
       />
     </ScrollView>
   );
