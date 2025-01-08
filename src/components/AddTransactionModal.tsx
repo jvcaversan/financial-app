@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, View, TextInput, TouchableOpacity } from "react-native";
+import { Modal, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Text } from "./ui/text";
 import { useTransactions } from "../hooks/useTransactions";
 import { ActionButton } from "./ActionButton";
@@ -22,22 +22,35 @@ export function AddTransactionModal({
   const { addTransaction } = useTransactions();
 
   async function handleSubmit() {
-    if (!amount || !description) return;
+    if (!amount || !description) {
+      Alert.alert("Por favor, preencha todos os campos.");
+      return;
+    }
 
     try {
-      await addTransaction({
-        amount: Number(amount),
-        description,
-        type,
-        userId: 1,
-      });
-
-      setAmount("");
-      setDescription("");
-      onSuccess();
-      onClose();
+      addTransaction(
+        {
+          amount: Number(amount),
+          description,
+          type,
+          userId: 1,
+        },
+        {
+          onSuccess: () => {
+            setAmount("");
+            setDescription("");
+            onClose();
+            onSuccess();
+          },
+          onError: (error) => {
+            console.error("Erro ao adicionar transação:", error);
+            Alert.alert("Ocorreu um erro ao adicionar a transação.");
+          },
+        }
+      );
     } catch (error) {
-      console.error("Error saving transaction:", error);
+      console.error("Erro ao adicionar transação:", error);
+      Alert.alert("Ocorreu um erro ao adicionar a transação.");
     }
   }
 

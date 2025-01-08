@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box } from "../components/ui/box";
 import { Text } from "../components/ui/text";
 import { PieChart } from "react-native-svg-charts";
@@ -41,7 +41,7 @@ export const PieChartCard = ({
             },
           }))}
           innerRadius={"40%"}
-          padAngle={0.04}
+          padAngle={0.02}
         />
       </Box>
     </Box>

@@ -9,7 +9,7 @@ import { TransactionList } from "../../components/TransactionList";
 import { preparePieChartData } from "../../utils/preparePieChartData";
 import { AddTransactionModal } from "../../components/AddTransactionModal";
 import { useTransactions } from "../../hooks/useTransactions";
-import { Transaction } from "../../types";
+import { useBalance } from "../../hooks/useCalcBalance";
 
 const HomeScreen: React.FC = () => {
   const user = {
@@ -23,6 +23,7 @@ const HomeScreen: React.FC = () => {
   >(null);
 
   const { transactions } = useTransactions();
+  const balance = useBalance(transactions);
 
   const handleSelectSlice = (key: number) => {
     setSelectedTransactionId(key);
@@ -34,7 +35,7 @@ const HomeScreen: React.FC = () => {
   return (
     <ScrollView className="flex-1 bg-white p-4">
       <Header userName={user.name} />
-      {/* <BalanceCard balance={balance} /> */}
+      <BalanceCard balance={balance} />
       <HStack space="md" className="mb-6">
         <ActionButton
           iconName="add"

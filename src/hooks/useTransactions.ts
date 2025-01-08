@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 
 import { schema, transactions } from "../db/schema";
+import { asc, desc } from "drizzle-orm";
 
 interface AddTransactionParams {
   amount: number;
@@ -20,7 +21,9 @@ export function useTransactions() {
     queryKey: ["transactions"],
     queryFn: async () => {
       try {
-        return await db.query.transactions.findMany();
+        return await db.query.transactions.findMany({
+          orderBy: [desc(transactions.createdAt)],
+        });
       } catch (error) {
         console.error("Failed to fetch transactions:", error);
         throw error;
@@ -38,7 +41,6 @@ export function useTransactions() {
       }
     },
     onSuccess: () => {
-      // Invalida o cache e força uma nova busca
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
   });
