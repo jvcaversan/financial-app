@@ -1,50 +1,91 @@
-# Welcome to your Expo app 👋
+Aplicativo de Finanças Pessoais
+Bem-vindo ao repositório do Aplicativo de Finanças Pessoais! Este é um aplicativo móvel desenvolvido em React Native (Expo) que permite aos usuários gerenciar suas finanças de forma simples e eficiente. Com ele, você pode criar, editar e excluir recebíveis e gastos, visualizar um gráfico de transações, acompanhar todas as transações em uma lista e ter o cálculo automático do saldo.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este projeto foi desenvolvido utilizando Drizzle ORM e Expo SQLite como banco de dados local, garantindo uma experiência rápida e confiável.
 
-## Get started
+Funcionalidades Principais
 
-1. Install dependencies
+1. Gestão de Recebíveis e Gastos
+   Criar Recebíveis:
 
-   ```bash
-   npm install
-   ```
+Adicione recebíveis (entradas de dinheiro) com valor e descrição.
 
-2. Start the app
+Criar Gastos:
 
-   ```bash
-    npx expo start
-   ```
+Adicione gastos (saídas de dinheiro) com valor e descrição.
 
-In the output, you'll find options to open the app in a
+Edição:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Edite recebíveis e gastos existentes para atualizar valores ou descrições.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Exclusão:
 
-## Get a fresh project
+Remova recebíveis ou gastos que não são mais necessários.
 
-When you're ready, run:
+2. Gráfico de Transações
+   Visualize um gráfico interativo que mostra a distribuição de recebíveis e gastos ao longo do tempo.
 
-```bash
-npm run reset-project
-```
+O gráfico ajuda a identificar padrões de gastos e receitas.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+3. Lista de Todas as Transações
+   Acesse uma aba dedicada com todas as transações (recebíveis e gastos) em uma lista organizada.
 
-## Learn more
+Cada transação exibe o valor, a descrição e a data.
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Cálculo Automático de Saldo
+   O saldo é calculado automaticamente com base nas transações registradas.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+O saldo é atualizado em tempo real à medida que novas transações são adicionadas, editadas ou excluídas.
 
-## Join the community
+Tecnologias Utilizadas
+React Native (Expo): Para o desenvolvimento do aplicativo móvel multiplataforma.
 
-Join our community of developers creating universal apps.
+Drizzle ORM: Para gerenciar o banco de dados de forma eficiente e com tipagem segura.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Expo SQLite: Como banco de dados local para armazenar as transações.
+
+TypeScript: Para garantir um código mais seguro e escalável.
+
+React Navigation: Para a navegação entre telas no aplicativo.
+
+React Native SVG Charts: Para a criação de gráficos interativos.
+
+Requisitos do Sistema
+Para rodar o projeto localmente, você precisará dos seguintes requisitos:
+
+Node.js (versão 18 ou superior)
+
+npm ou yarn (gerenciadores de pacotes)
+
+Xcode (para desenvolvimento iOS)
+
+Android Studio (para desenvolvimento Android)
+
+Expo CLI (instalado globalmente)
+
+Como Executar o Projeto
+Siga os passos abaixo para configurar e executar o aplicativo no seu ambiente local:
+
+Clone o repositório:
+
+bash
+Copy
+git clone https://github.com/seu-usuario/aplicativo-financas.git
+cd aplicativo-financas
+Instale as dependências:
+
+bash
+Copy
+npm install
+Inicie o servidor de desenvolvimento:
+
+bash
+Copy
+npx expo start
+Execute o aplicativo:
+
+No terminal, pressione i para abrir o aplicativo no iOS Simulator (Xcode necessário).
+
+Pressione a para abrir o aplicativo no Android Emulator (Android Studio necessário).
+
+Ou escaneie o QR code com o aplicativo Expo Go no seu smartphone físico.
