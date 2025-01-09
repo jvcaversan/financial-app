@@ -52,8 +52,7 @@ const Labels = ({ slices, selectedKey }: LabelsProps) => {
         stroke={"black"} // Contorno do texto
         strokeWidth={0.2} // Espessura do contorno
       >
-        {isSelected ? data.value : ""}{" "}
-        {/* Exibe o valor apenas se a fatia estiver selecionada */}
+        {isSelected ? data.value : ""}
       </Text>
     );
   });
