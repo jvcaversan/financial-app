@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { HStack } from "../../components/ui/hstack";
 import { Header } from "../../components/header";
@@ -10,6 +10,7 @@ import { preparePieChartData } from "../../utils/preparePieChartData";
 import { AddTransactionModal } from "../../components/AddTransactionModal";
 import { useTransactions } from "../../hooks/useTransactions";
 import { useBalance } from "../../hooks/useCalcBalance";
+import { useTransactionSelection } from "../../hooks/useTransactionSelection";
 
 const HomeScreen: React.FC = () => {
   const user = {
@@ -18,19 +19,23 @@ const HomeScreen: React.FC = () => {
 
   const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
   const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
-  const [selectedTransactionId, setSelectedTransactionId] = useState<
-    number | null
-  >(null);
 
   const { transactions } = useTransactions();
   const balance = useBalance(transactions);
 
-  const handleSelectSlice = (key: number) => {
-    setSelectedTransactionId(key);
-  };
-  const pieChartData = preparePieChartData(transactions, handleSelectSlice);
+  const {
+    selectedTransactionId,
+    visibleTransactions,
+    handleSelectSlice,
+    setSelectedTransactionId,
+    setVisibleTransactions,
+  } = useTransactionSelection(transactions);
 
-  const lastTransactions = transactions.slice(0, 5);
+  useEffect(() => {
+    setVisibleTransactions(transactions.slice(0, 5));
+  }, [transactions]);
+
+  const pieChartData = preparePieChartData(transactions, handleSelectSlice);
 
   return (
     <ScrollView className="flex-1 bg-white p-4">
@@ -58,7 +63,7 @@ const HomeScreen: React.FC = () => {
         data={pieChartData}
       />
       <TransactionList
-        transactions={lastTransactions}
+        transactions={visibleTransactions}
         selectedTransactionId={selectedTransactionId}
         onSelectTransaction={setSelectedTransactionId}
       />
