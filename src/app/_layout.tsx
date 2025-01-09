@@ -5,6 +5,7 @@ import { GluestackUIProvider } from "../components/ui/gluestack-ui-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { drizzle } from "drizzle-orm/expo-sqlite";
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "../../drizzle/migrations";
@@ -19,6 +20,7 @@ const db = drizzle(expoDB);
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
+  useDrizzleStudio(expoDB);
   const { success, error } = useMigrations(db, migrations);
 
   if (!success && !error) {

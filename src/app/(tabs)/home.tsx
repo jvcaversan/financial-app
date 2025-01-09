@@ -29,11 +29,15 @@ const HomeScreen: React.FC = () => {
     handleSelectSlice,
     setSelectedTransactionId,
     setVisibleTransactions,
+    shouldUpdateVisibleTransactions,
+    setShouldUpdateVisibleTransactions,
   } = useTransactionSelection(transactions);
 
   useEffect(() => {
-    setVisibleTransactions(transactions.slice(0, 5));
-  }, [transactions]);
+    if (shouldUpdateVisibleTransactions) {
+      setVisibleTransactions(transactions.slice(0, 5));
+    }
+  }, [transactions, shouldUpdateVisibleTransactions]);
 
   const pieChartData = preparePieChartData(transactions, handleSelectSlice);
 
@@ -72,14 +76,20 @@ const HomeScreen: React.FC = () => {
         isVisible={isIncomeModalVisible}
         onClose={() => setIsIncomeModalVisible(false)}
         type="incomes"
-        onSuccess={() => setIsIncomeModalVisible(false)}
+        onSuccess={() => {
+          setIsIncomeModalVisible(false);
+          setShouldUpdateVisibleTransactions(true); // Permite a atualização após adicionar uma transação
+        }}
       />
 
       <AddTransactionModal
         isVisible={isExpenseModalVisible}
         onClose={() => setIsExpenseModalVisible(false)}
         type="expenses"
-        onSuccess={() => setIsIncomeModalVisible(false)}
+        onSuccess={() => {
+          setIsIncomeModalVisible(false);
+          setShouldUpdateVisibleTransactions(true); // Permite a atualização após adicionar uma transação
+        }}
       />
     </ScrollView>
   );

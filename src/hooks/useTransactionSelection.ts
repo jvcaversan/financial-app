@@ -8,6 +8,8 @@ export const useTransactionSelection = (transactions: Transaction[]) => {
   const [visibleTransactions, setVisibleTransactions] = useState(
     transactions.slice(0, 5)
   );
+  const [shouldUpdateVisibleTransactions, setShouldUpdateVisibleTransactions] =
+    useState(true);
 
   const handleSelectSlice = (key: number) => {
     setSelectedTransactionId(key);
@@ -26,6 +28,7 @@ export const useTransactionSelection = (transactions: Transaction[]) => {
         ...filteredVisibleTransactions.slice(0, 4),
       ];
       setVisibleTransactions(newVisibleTransactions);
+      setShouldUpdateVisibleTransactions(false); // Impede a atualização pelo useEffect
     }
   };
 
@@ -35,5 +38,7 @@ export const useTransactionSelection = (transactions: Transaction[]) => {
     handleSelectSlice,
     setSelectedTransactionId,
     setVisibleTransactions,
+    shouldUpdateVisibleTransactions,
+    setShouldUpdateVisibleTransactions,
   };
 };

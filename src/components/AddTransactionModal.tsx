@@ -3,6 +3,7 @@ import { Modal, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Text } from "./ui/text";
 import { useTransactions } from "../hooks/useTransactions";
 import { ActionButton } from "./ActionButton";
+import { z } from "zod";
 
 interface AddTransactionModalProps {
   isVisible: boolean;
@@ -10,6 +11,13 @@ interface AddTransactionModalProps {
   type: "incomes" | "expenses";
   onSuccess: () => void;
 }
+
+const transactionSchema = z.object({
+  amount: z.string().refine((value) => /^\d+(\.\d{1,2})?$/.test(value), {
+    message: "O valor deve ser um número com ponto decimal (ex: 350.50).",
+  }),
+  description: z.string().min(1, "A descrição é obrigatória."),
+});
 
 export function AddTransactionModal({
   isVisible,
@@ -22,16 +30,28 @@ export function AddTransactionModal({
   const { addTransaction } = useTransactions();
 
   async function handleSubmit() {
-    if (!amount || !description) {
-      Alert.alert("Por favor, preencha todos os campos.");
-      return;
-    }
-
     try {
+      // Validar os dados
+      const validatedData = transactionSchema.safeParse({
+        amount,
+        description,
+      });
+
+      if (!amount && !description) {
+        Alert.alert("Ambos os campos são obrigatórios");
+        return;
+      }
+
+      if (!validatedData.success) {
+        Alert.alert("Erro de validação", validatedData.error.errors[0].message);
+        return;
+      }
+
+      // Se a validação passar, prosseguir com a adição da transação
       addTransaction(
         {
-          amount: Number(amount),
-          description,
+          amount: Number(validatedData.data.amount),
+          description: validatedData.data.description,
           type,
           userId: 1,
         },
