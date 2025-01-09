@@ -46,7 +46,7 @@ Expo SQLite: Como banco de dados local para armazenar as transações.
 
 TypeScript: Para garantir um código mais seguro e escalável.
 
-React Navigation: Para a navegação entre telas no aplicativo.
+Tanstack React Query: Adicionar, Editar, Excluir, Buscar transações.
 
 React Native SVG Charts: Para a criação de gráficos interativos.
 
@@ -68,19 +68,13 @@ Siga os passos abaixo para configurar e executar o aplicativo no seu ambiente lo
 
 Clone o repositório:
 
-bash
-Copy
 git clone https://github.com/seu-usuario/aplicativo-financas.git
 cd aplicativo-financas
 Instale as dependências:
 
-bash
-Copy
 npm install
 Inicie o servidor de desenvolvimento:
 
-bash
-Copy
 npx expo start
 Execute o aplicativo:
 
