@@ -1,7 +1,8 @@
 import React from "react";
 import { Box } from "../components/ui/box";
-import { Text } from "../components/ui/text";
+import { Text as UiText } from "../components/ui/text";
 import { PieChart } from "react-native-svg-charts";
+import { Text } from "react-native-svg";
 
 interface PieChartCardProps {
   data: {
@@ -14,15 +15,57 @@ interface PieChartCardProps {
   onSelectSlice: (key: number) => void;
 }
 
+// Tipagem para as slices
+interface Slice {
+  pieCentroid: [number, number];
+  data: {
+    value: number;
+    svg: { fill: string };
+    key: number; // Adicionamos a chave aqui para verificar a seleção
+  };
+}
+
+interface LabelsProps {
+  slices: Slice[];
+  selectedKey: number | null; // Passamos a selectedKey para o componente Labels
+}
+
+const Labels = ({ slices, selectedKey }: LabelsProps) => {
+  return slices.map((slice, index) => {
+    const { pieCentroid, data } = slice;
+
+    // Verifica se a fatia está selecionada
+    const isSelected = data.key === selectedKey;
+
+    // Cor do texto baseada na cor da fatia
+    const textColor = "black";
+
+    return (
+      <Text
+        key={index}
+        x={pieCentroid[0]} // Posição X do texto
+        y={pieCentroid[1]} // Posição Y do texto
+        fill={textColor} // Cor do texto
+        textAnchor={"middle"} // Alinhamento horizontal
+        alignmentBaseline={"middle"} // Alinhamento vertical
+        fontSize={12} // Tamanho da fonte (reduzido para caber melhor)
+        stroke={"black"} // Contorno do texto
+        strokeWidth={0.2} // Espessura do contorno
+      >
+        {isSelected ? data.value : ""}{" "}
+        {/* Exibe o valor apenas se a fatia estiver selecionada */}
+      </Text>
+    );
+  });
+};
+
 export const PieChartCard = ({
   data,
   selectedKey,
   onSelectSlice,
 }: PieChartCardProps) => {
-  // Verifica se há transações
   const hasTransactions = data.length > 0;
 
-  // Dados para o gráfico
   const chartData = hasTransactions
     ? data.map((item) => ({
         ...item,
@@ -39,20 +82,20 @@ export const PieChartCard = ({
       }))
     : [
         {
-          value: 1, // Valor único para preencher o gráfico
-          key: 0, // Chave única
+          value: 1,
+          key: 0,
           svg: {
-            fill: "#D1D5DB", // Cor cinza
-            onPress: () => {}, // Função vazia, pois não há interação
+            fill: "#D1D5DB",
+            onPress: () => {},
           },
         },
       ];
 
   return (
     <Box className="mb-6">
-      <Text className="text-gray-800 text-xl font-bold mb-4">
+      <UiText className="text-gray-800 text-xl font-bold mb-4">
         Distribuição de Gastos
-      </Text>
+      </UiText>
       <Box className="items-center bg-gray-50 p-3 rounded-xl">
         {hasTransactions ? (
           <PieChart
@@ -60,7 +103,10 @@ export const PieChartCard = ({
             data={chartData}
             innerRadius={"40%"}
             padAngle={0.02}
-          />
+            valueAccessor={({ item }) => item.value}
+          >
+            <Labels slices={[]} selectedKey={selectedKey} />
+          </PieChart>
         ) : (
           <>
             <PieChart
@@ -68,10 +114,11 @@ export const PieChartCard = ({
               data={chartData}
               innerRadius={"40%"}
               padAngle={0.02}
+              valueAccessor={({ item }) => item.value}
             />
-            <Text className="text-gray-500 mt-2">
+            <UiText className="text-gray-500 mt-2">
               Nenhuma transação encontrada.
-            </Text>
+            </UiText>
           </>
         )}
       </Box>
