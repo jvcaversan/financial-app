@@ -10,6 +10,7 @@ interface ActionButtonProps {
   color: string;
   backgroundColor: string;
   onPress?: () => void;
+  disabled?: boolean; // Adicionamos a prop `disabled`
 }
 
 export function ActionButton({
@@ -18,11 +19,16 @@ export function ActionButton({
   color,
   backgroundColor,
   onPress,
+  disabled = false, // Valor padrão para `disabled`
 }: ActionButtonProps) {
   return (
     <TouchableOpacity
-      className={`flex-1 ${backgroundColor} px-4 py-3 rounded-xl `}
+      className={`flex-1 ${backgroundColor} px-4 py-3 rounded-xl ${
+        disabled ? "opacity-50" : "" // Aplica opacidade reduzida quando desabilitado
+      }`}
       onPress={onPress}
+      disabled={disabled} // Passa a prop `disabled` para o TouchableOpacity
+      activeOpacity={0.7} // Opacidade ao pressionar o botão
     >
       <HStack space="md" className="items-center justify-center">
         {iconName && <MaterialIcons name={iconName} size={24} color={color} />}

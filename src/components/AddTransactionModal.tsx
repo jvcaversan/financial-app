@@ -27,10 +27,15 @@ export function AddTransactionModal({
 }: AddTransactionModalProps) {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar o envio
   const { addTransaction } = useTransactions();
 
   async function handleSubmit() {
+    if (isSubmitting) return; // Impede múltiplos cliques
+
     try {
+      setIsSubmitting(true); // Desabilita o botão
+
       // Validar os dados
       const validatedData = transactionSchema.safeParse({
         amount,
@@ -71,6 +76,8 @@ export function AddTransactionModal({
     } catch (error) {
       console.error("Erro ao adicionar transação:", error);
       Alert.alert("Ocorreu um erro ao adicionar a transação.");
+    } finally {
+      setIsSubmitting(false); // Reabilita o botão após a conclusão
     }
   }
 
@@ -116,12 +123,13 @@ export function AddTransactionModal({
 
             <View className="h-12 w-[85%] mx-auto mt-4">
               <ActionButton
-                label="Salvar"
+                label={isSubmitting ? "Salvando..." : "Salvar"} // Altera o texto do botão
                 color="white"
                 backgroundColor={
                   type === "incomes" ? "bg-green-500" : "bg-red-500"
                 }
                 onPress={handleSubmit}
+                disabled={isSubmitting}
               />
             </View>
           </View>
